@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 EclipseSource and others.
+ * Copyright (c) 2015 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    EclipseSource - initial API and implementation
+ *    jsivadier - update to support all kind of Number and not just integers
  ******************************************************************************/
 
 package org.eclipse.rap.chartjs.demo;
@@ -33,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 public class ChartDemo extends AbstractEntryPoint {
 
   private static final String[] MONTHS = new String[] { "January", "February", "March", "April", "May", "June", "July" };
-  private final ChartOptions options = new ChartOptions();;
+  private final ChartOptions options = new ChartOptions().setScaleIntegersOnly(false);
   private ChartStyle chartStyle1;
   private ChartStyle chartStyle2;
   private ChartStyle chartStyle3;
@@ -61,8 +62,8 @@ public class ChartDemo extends AbstractEntryPoint {
   }
 
   private ChartRowData createRowData() {
-    return new ChartRowData( MONTHS ).addRow( new int[] { nr(), nr(), nr(), nr(), nr(), nr(), nr() }, chartStyle1 )
-                                     .addRow( new int[] { nr(), nr(), nr(), nr(), nr(), nr(), nr() }, chartStyle2 );
+    return new ChartRowData( MONTHS ).addRow( new Number[] { nr(), nr(), nr(), nr(), nr(), nr(), nr() }, chartStyle1 )
+                                     .addRow( new Number[] { fr(), fr(), fr(), fr(), fr(), fr(), fr() }, chartStyle2 );
   }
 
   private void createChartStyles() {
@@ -230,10 +231,15 @@ public class ChartDemo extends AbstractEntryPoint {
     abstract void setOption( int value );
   }
 
-  private int nr() {
+  private Integer nr() {
     int factor = options.getScaleBeginAtZero() ? 100 : 1000;
     int offset = Math.round( factor * 0.1f );
     return offset + ( int )( Math.random() * ( factor - offset ) );
   }
 
+  private Double fr() {
+  	Double factor = options.getScaleBeginAtZero() ? 100.0 : 1000.0;
+    Double offset = factor * 0.1;
+    return offset + Math.random() * ( factor - offset );
+  }
 }

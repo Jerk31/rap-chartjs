@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 EclipseSource and others.
+ * Copyright (c) 2015 EclipseSource and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    EclipseSource - initial API and implementation
+ *    jsivadier - update to support all kind of Number and not just integers
  ******************************************************************************/
 
 package org.eclipse.rap.chartjs;
@@ -23,14 +24,14 @@ import org.eclipse.rap.json.JsonObject;
 public class ChartRowData {
 
   private final String[] labels;
-  private final List<int[]> rows = new ArrayList<int[]>( 1 );
+  private final List<Number[]> rows = new ArrayList<Number[]>( 1 );
   private final List<ChartStyle> colors = new ArrayList<ChartStyle>( 1 );
 
   public ChartRowData( String[] labels ) {
     this.labels = labels;
   }
 
-  public ChartRowData addRow( int[] row, ChartStyle colors ) {
+  public ChartRowData addRow( Number[] row, ChartStyle colors ) {
     rows.add( row );
     this.colors.add( colors );
     return this;
@@ -62,10 +63,11 @@ public class ChartRowData {
     return result;
   }
 
-  private JsonArray asJson( int... ints ) {
+  private JsonArray asJson( Number... numbers ) {
     JsonArray result = new JsonArray();
-    for( int i = 0; i < ints.length; i++ ) {
-      result.add( ints[ i ] );
+    for( int i = 0; i < numbers.length; i++ ) {
+      Number number = numbers[ i ];
+      result.add( number instanceof Double ? (Double) number : number instanceof Integer ? (Integer) number : number.intValue() );
     }
     return result;
   }
