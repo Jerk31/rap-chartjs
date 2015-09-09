@@ -24,10 +24,11 @@ public class ChartOptions {
 	private boolean bezierCurve = true;
 	private boolean showFill = true;
 	private boolean scaleShowLabels = true;
-	private int pointDotRadius = 3;
-	private int strokeWidth = 2;
 	private boolean scaleIntegersOnly = true;
 	private boolean responsive = false;
+	private int pointDotRadius = 3;
+	private int pointHitDetectionRadius = 20;
+	private int strokeWidth = 2;
 	
 	
 	/**
@@ -179,6 +180,20 @@ public class ChartOptions {
 		this.responsive = responsive;
 		return this;
 	}
+	
+	public int getPointHitDetectionRadius() {
+		return pointHitDetectionRadius;
+	}
+	
+	/**
+	 * Sets the amount extra to add to the radius to cater for hit detection 
+	 * outside the drawn point. This is the mouse radius for tooltips.
+	 * 
+	 * @param pointHitDetectionRadius
+	 */
+	public void setPointHitDetectionRadius(int pointHitDetectionRadius) {
+		this.pointHitDetectionRadius = pointHitDetectionRadius;
+	}
 
 	JsonObject toJson() {
 		JsonObject result = new JsonObject();
@@ -194,6 +209,7 @@ public class ChartOptions {
 		result.add("scaleShowLabels", scaleShowLabels);
 		result.add("scaleIntegersOnly", scaleIntegersOnly);
 		result.add("responsive", responsive);
+		result.add("pointHitDetectionRadius", pointHitDetectionRadius);
 		return result;
 	}
 	
