@@ -23,10 +23,12 @@ public class ChartPointData {
 
   private final List<Number> points = new ArrayList<Number>( 5 );
   private final List<ChartStyle> colors = new ArrayList<ChartStyle>( 5 );
+  private final List<String> labels = new ArrayList<String>( 5 );
 
-  public ChartPointData addPoint( Number value, ChartStyle chartStyle ) {
+  public ChartPointData addPoint( String label, Number value, ChartStyle chartStyle ) {
     points.add( value );
     colors.add( chartStyle );
+    labels.add( label );
     return this;
   }
 
@@ -36,7 +38,8 @@ public class ChartPointData {
     	Number n = points.get(i);
       result.add( new JsonObject()
         .add( "value", n instanceof Double ? (Double) n : n instanceof Integer ? (Integer) n : n.intValue() )
-        .add( "color", ChartStyle.asCss( colors.get( i ).getFillColor() ) )
+        .add( "color", ChartStyle.asCss( colors.get( i ).getFillColor(), colors.get( i ).getFillOpacity() ) )
+        .add( "label", labels.get( i ) )
       );
     }
     return result;
